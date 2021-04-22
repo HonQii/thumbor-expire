@@ -22,7 +22,7 @@ class UrlSigner(BaseUrlSigner):
                 return False
 
             url_signature = self.signature(expire_time, url)
-            return url_signature == actual_signature
+            return url_signature == sha1_str
         else:
             url_signature = self.signature('', url)
             return url_signature == actual_signature
@@ -36,5 +36,5 @@ class UrlSigner(BaseUrlSigner):
 
     def signature(self, expire_time, url):
         security_key = text_type(self.security_key).encode('utf-8')
-        full_url = text_type(expire_time + url).encode('utf-8')
+        full_url = text_type(expire_time + '/' + url).encode('utf-8')
         return base64.urlsafe_b64encode(hmac.new(security_key, full_url, hashlib.sha1).digest())
