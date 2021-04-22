@@ -16,13 +16,10 @@ class CryptoURL(ThumborCryptoURL):
             elif isinstance(expire, datetime):
                 expire = expire
             elif isinstance(expire, date):
-                print 'is date'
                 expire = datetime.combine(expire, time.min)
             elif isinstance(expire, time):
-                print 'is time'
                 expire = datetime.utcnow() + (datetime.combine(date.min, expire) - datetime.min)
             elif isinstance(expire, timedelta):
-                print 'is delta'
                 expire = datetime.utcnow() + expire
 
             expire_str = expire.strftime('%Y%m%d%H%M%S')
