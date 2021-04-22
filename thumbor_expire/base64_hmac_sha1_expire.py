@@ -16,12 +16,16 @@ class UrlSigner(BaseUrlSigner):
     """
 
     def validate(self, actual_signature, url):
-        sha1_str, expire_time = actual_signature.split(':')
-        if self._valid_expire_time(expire_time):
+        if ':' in actual_signature:
+            sha1_str, expire_time = actual_signature.split(':')
+            if not self._valid_expire_time(expire_time):
+                return False
+
             url_signature = self.signature(expire_time, url)
             return url_signature == actual_signature
         else:
-            return False
+            url_signature = self.signature('', url)
+            return url_signature == actual_signature
 
     def _valid_expire_time(self, expire_time):
         try:

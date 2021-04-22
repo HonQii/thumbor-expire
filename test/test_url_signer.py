@@ -30,3 +30,18 @@ class Base64HmacSha1UrlSignerTestCase(TestCase):
         )
         actual = signer.signature(expire_str, url)
         self.assertEqual(actual, expected)
+
+    def test_can_unsign_url(self):
+        security_key = "something"
+        signer = UrlSigner(security_key=security_key)
+
+        url = "/10x11:12x13/-300x-300/center/middle/smart/some/image.jpg"
+        expire_str = ''
+
+        expected = base64.urlsafe_b64encode(
+            hmac.new(
+                security_key.encode(), text_type(expire_str + url).encode("utf-8"), hashlib.sha1
+            ).digest()
+        )
+        actual = signer.signature(expire_str, url)
+        self.assertEqual(actual, expected)
