@@ -36,5 +36,8 @@ class UrlSigner(BaseUrlSigner):
 
     def signature(self, expire_time, url):
         security_key = text_type(self.security_key).encode('utf-8')
-        full_url = text_type(expire_time + '/' + url).encode('utf-8')
+        if expire_time and len(expire_time) > 0:
+            full_url = text_type(expire_time + '/' + url).encode('utf-8')
+        else:
+            full_url = text_type(url).encode('utf-8')
         return base64.urlsafe_b64encode(hmac.new(security_key, full_url, hashlib.sha1).digest())

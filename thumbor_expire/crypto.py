@@ -38,8 +38,9 @@ class CryptoURL(ThumborCryptoURL):
             return '/%s/%s' % (signature, url)
 
     def generate_new(self, options):
+        expire = options.pop('expire', None)
         url = plain_image_url(**options)
-        return self.generate_url(url, options.get('expire', None))
+        return self.generate_url(url, expire)
 
     def generate_options(self,
                          image_url,
