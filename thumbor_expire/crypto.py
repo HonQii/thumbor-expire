@@ -65,6 +65,4 @@ class CryptoURL(ThumborCryptoURL):
         :param expire: :obj:`int` | :obj:`float` | :obj:`datetime.timedelta` | \
         :obj:`datetime.datetime` | :obj:`datetime.time`, optional
         """
-        return self.generate(**{k: v for k, v in locals().items() if v is not None})
-
-
+        return self.generate(**{k: v for k, v in locals().items() if v is not None and k != 'self'})
